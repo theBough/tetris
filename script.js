@@ -133,3 +133,9 @@ function  rotateReverseEs() {
 function rotateTee(){
   
 }
+function off(){
+  clearInterval(myGravity)
+}
+function on(){
+  myGravity = setInterval(moveTetrominoDown, 500)
+}
