@@ -72,6 +72,11 @@ function moveTetrominoDown(){
     activeTetromino[i] += 10
     document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
   }
+  for(i=3 ; i> -1 ; i--){
+    if(activeTetromino[i] + 10 >200){
+      clearInterval(myGravity);
+    }
+  }
 }
 function rotateTetromino(){
  if(activeTetromino[5] == "stick"){
