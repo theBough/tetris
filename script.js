@@ -11,6 +11,7 @@ var reverseElArray = [4,14,23,24,"cyan","reverseEl","vertical"];
 var esArray = [4,5,13,14,"green","es","horizontal"];
 var reverseEsArray = [4,5,15,16,"grey","reverseEs","horizontal"];
 var teeArray = [5,14,15,16,"purple","tee","knobUp"]
+var finishedArrary = []
 function makeButtons() {
   for (var i = 0; i < 200; i++) {
       var btn = document.createElement("button");
@@ -23,7 +24,7 @@ function makeButtons() {
   //makeCube()
  
   for(i=0 ; i<6 ; i++){
-    activeTetromino[i] = stickArray[i]
+    activeTetromino[i] = reverseEsArray[i]
     console.log(activeTetromino[i])
   }
   placeTetromino()
@@ -74,9 +75,23 @@ function moveTetrominoDown(){
   }
   for(i=3 ; i> -1 ; i--){
     if(activeTetromino[i] + 10 >200){
-      clearInterval(myGravity);
+      resolveStoppedTetromino();
     }
   }
+  for(i=0 ; i < finishedArrary.length; i++){
+    if(finishedArrary.includes(activeTetromino[3]+10)){
+      resolveStoppedTetromino()
+    }
+  }
+}
+function resolveStoppedTetromino(){
+  for(i=0 ; i<4 ; i++){
+    finishedArrary.push(activeTetromino[i])
+  }
+  for(i=0 ; i<6 ; i++){
+    activeTetromino[i] = cubeArray[i];
+  }
+  placeTetromino()
 }
 function rotateTetromino(){
  if(activeTetromino[5] == "stick"){
