@@ -21,15 +21,10 @@ function makeButtons() {
       btn.setAttribute("class", "btnClass");
       btn.setAttribute("id", i);
       document.getElementById("theGrid").appendChild(btn);
-      document.getElementById(i).textContent = i
+      //document.getElementById(i).textContent = i
   }//end For loop
   //makeCube()
-  for(i=0 ; i < 7 ; i++){
-     activeTetromino[i] = teeArray[i]
-  }
- 
-  placeTetromino()
-   console.log(activeTetromino)
+  pickNewBlock();
 }//end function makeButton 
 function isKeyDown(e){
   if(e.code == "ArrowLeft"){
@@ -46,6 +41,39 @@ function isKeyDown(e){
   }
 }
 
+function pickNewBlock(){
+  var rndNum = Math.floor(Math.random()*7);
+  if(rndNum == 0){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = elArray[i]
+      }
+  }else if (rndNum == 1){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = reverseElArray[i]
+      }
+  }else if (rndNum == 2){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = teeArray[i]
+      }
+  }else if (rndNum == 3){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = cubeArray[i]
+      }
+  }else if (rndNum == 4){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = stickArray[i]
+      }
+  }else if (rndNum == 5){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = esArray[i]
+      }
+  }else if (rndNum == 6){
+     for(i=0 ; i < 7 ; i++){
+          activeTetromino[i] = reverseEsArray[i]
+      }
+  }
+  placeTetromino()
+}
 function gravity(){
   moveTetrominoDown()
 }
@@ -55,18 +83,49 @@ function placeTetromino(){
     }
 }
 function moveTetrominoLeft(){
+  var canMove = true;
+  //look if the piece is on the edge
   for(i=0; i <4; i++){
+     if(activeTetromino[i] % 10 == 0 ){
+       canMove = false
+     }
+     for(j=0 ; j < 4; j++){
+      if(finishedArray.includes(activeTetromino[j]-1)){
+         canMove = false;
+      }
+     }
+  }
+  if(canMove){
+    for(i=0; i <4; i++){
       document.getElementById(activeTetromino[i]).style.backgroundColor = "black"
       activeTetromino[i] -= 1;
       document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
     }
+  }
+  
 }
 function moveTetrominoRight(){
-  for(i=3; i >-1; i--){
+  var canMove = true;
+  //look if the piece is on the edge
+  for(i=0; i <4; i++){
+     if(activeTetromino[i] % 10 == 9 ){
+       canMove = false
+     }
+    for(j=0 ; j < 4; j++){
+      if(finishedArray.includes(activeTetromino[j]+1)){
+         canMove = false;
+      }
+     }
+  }
+  if(canMove){
+    for(i=3; i >-1; i--){
       document.getElementById(activeTetromino[i]).style.backgroundColor = "black"
       activeTetromino[i] += 1;
       document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
     }
+    
+  }
+  
 }
 function moveTetrominoDown(){
   //backward through the array
@@ -79,11 +138,14 @@ function moveTetrominoDown(){
     activeTetromino[i] += 10
     document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
   }
-  if((activeTetromino[3]+10 > 200)){
-     newBlock = true;
-  }
-  for(i=0 ; i < finishedArray.length; i++){
-    if(finishedArray.includes(activeTetromino[3]+10)){
+   for(i=3 ; i>-1 ; i--){
+      if((activeTetromino[i]+10 > 200)){
+        newBlock = true;
+      }
+   }
+  
+  for(i=0 ; i < 4; i++){
+    if(finishedArray.includes(activeTetromino[i]+10)){
       newBlock = true;
     }
   }
@@ -92,20 +154,8 @@ function moveTetrominoDown(){
     for(i = 0; i<4 ; i++){
       finishedArray.push(activeTetromino[i])
     }
-    console.log(finishedArray)
-    if(corbin == 0){
-      for(i=0 ; i < 6 ; i++){
-          activeTetromino[i] = elArray[i]
-        }
-      corbin += 1
-    }else{
-       for(i=0 ; i < 6 ; i++){
-          activeTetromino[i] = reverseElArray[i]
-        }
-    }
-    
-    placeTetromino(activeTetromino)
     newBlock = false
+    pickNewBlock()
   }
 }//end function
 
@@ -113,5 +163,5 @@ function off(){
   clearInterval(myGravity)
 }
 function on(){
-  myGravity = setInterval(gravity,800);
+  myGravity = setInterval(gravity,400);
 }
