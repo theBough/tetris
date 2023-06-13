@@ -41,6 +41,15 @@ function isKeyDown(e){
   }
 }
 
+function isGameOver(){
+  for(i=0 ; i<3 ; i++){
+    if(finishedArray.includes(activeTetromino[i])){
+      //game over.
+      clearInterval(myGravity)
+    }
+  }
+}
+
 function pickNewBlock(){
   var rndNum = Math.floor(Math.random()*7);
   if(rndNum == 0){
@@ -73,6 +82,7 @@ function pickNewBlock(){
       }
   }
   placeTetromino()
+  isGameOver()
 }
 function gravity(){
   moveTetrominoDown()
@@ -97,7 +107,7 @@ function moveTetrominoLeft(){
   }
   if(canMove){
     for(i=0; i <4; i++){
-      document.getElementById(activeTetromino[i]).style.backgroundColor = "black"
+      document.getElementById(activeTetromino[i]).style.backgroundColor = backColour
       activeTetromino[i] -= 1;
       document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
     }
@@ -119,7 +129,7 @@ function moveTetrominoRight(){
   }
   if(canMove){
     for(i=3; i >-1; i--){
-      document.getElementById(activeTetromino[i]).style.backgroundColor = "black"
+      document.getElementById(activeTetromino[i]).style.backgroundColor = backColour
       activeTetromino[i] += 1;
       document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
     }
@@ -134,7 +144,7 @@ function moveTetrominoDown(){
   //change to Tetromino Color
   
   for(i=3 ; i>-1 ; i--){
-    document.getElementById(activeTetromino[i]).style.backgroundColor = "black"
+    document.getElementById(activeTetromino[i]).style.backgroundColor = backColour
     activeTetromino[i] += 10
     document.getElementById(activeTetromino[i]).style.backgroundColor = activeTetromino[4]
   }
