@@ -44,6 +44,14 @@ function isKeyDown(e) {
   }//end if
 
 }
+function isRowDone(){
+  for(i=190 ; i< 200 ; i++){
+    if(!(finishedArray.includes(i))){
+      return false;
+    }//end if
+  }//end loop
+  return true;
+}//end function
 
 function isGameOver() {
   for (i = 0; i < 3; i++) {
@@ -54,7 +62,6 @@ function isGameOver() {
     }
   }
 }
-
 function pickNewBlock() {
   var rndNum = Math.floor(Math.random() * 7);
   if (rndNum == 0) {
@@ -169,11 +176,13 @@ function moveTetrominoDown() {
     for (i = 0; i < 4; i++) {
       finishedArray.push(activeTetromino[i])
     }
+    if(isRowDone()){
+      console.log("row Done")
+    }
     newBlock = false
     pickNewBlock()
   }
 }//end function
-
 function off() {
   clearInterval(myGravity)
 }
