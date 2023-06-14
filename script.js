@@ -1,20 +1,22 @@
 //this grabs the input box
-var input = document.querySelector("input");
+
 //this looks for what key is down and calls the function
 //"isKeyDown()" whan a key is pressed/
+document.addEventListener("keydown",isKeyDown)
 var gameOn = true;
-input.addEventListener("keydown", isKeyDown)
+
 var activeTetromino = []
-var cubeArray = [4, 5, 14, 15, "yellow", "cube"];
-var stickArray = [4, 14, 24, 34, "blue", "stick", "vertical"];
-var elArray = [4, 14, 24, 25, "orange", "el", "one"];
-var reverseElArray = [4, 14, 23, 24, "cyan", "reverseEl", "one"];
-var esArray = [4, 5, 13, 14, "green", "es", "horizontal"];
-var reverseEsArray = [4, 5, 15, 16, "grey", "reverseEs", "horizontal"];
-var teeArray = [5, 14, 15, 16, "purple", "tee", "one"]
+var cubeArray = [4, 5, 14, 15, "rgb(10,147,150", "cube"];
+var stickArray = [4, 14, 24, 34, "rgb(148,210,189", "stick", "vertical"];
+var elArray = [4, 14, 24, 25, "rgb(233,216,166)", "el", "one"];
+var reverseElArray = [4, 14, 23, 24, "rgb(238,155,0)", "reverseEl", "one"];
+var esArray = [4, 5, 13, 14, "rgb(202,103,2)", "es", "horizontal"];
+var reverseEsArray = [4, 5, 15, 16, "rgb(187,62,3)", "reverseEs", "horizontal"];
+var teeArray = [5, 14, 15, 16, "rgb(155,34,38)", "tee", "one"]
 var newBlock = false;
 var corbin = 0;
 var finishedArray = []
+var finishedRow = 0
 function makeButtons() {
   for (var i = 0; i < 200; i++) {
     var btn = document.createElement("button");
@@ -44,15 +46,21 @@ function isKeyDown(e) {
   }//end if
 
 }
+function lineClear(){
+  console.log("test")
+  for(i = finishedRow ; i<200 ; i++){
+    document.getElementById(i).style.backgroundColor = "rgb(0,95,115)"
+  }
+}
 function isRowDone(){
   for(i=190 ; i< 200 ; i++){
     if(!(finishedArray.includes(i))){
       return false;
     }//end if
   }//end loop
+  finishedRow = 190;
   return true;
 }//end function
-
 function isGameOver() {
   for (i = 0; i < 3; i++) {
     if (finishedArray.includes(activeTetromino[i])) {
@@ -177,7 +185,8 @@ function moveTetrominoDown() {
       finishedArray.push(activeTetromino[i])
     }
     if(isRowDone()){
-      console.log("row Done")
+      
+      lineClear();
     }
     newBlock = false
     pickNewBlock()
