@@ -47,9 +47,27 @@ function isKeyDown(e) {
 
 }
 function lineClear(){
-  console.log("test")
-  for(i = finishedRow ; i<200 ; i++){
-    document.getElementById(i).style.backgroundColor = "rgb(0,95,115)"
+  for(i = 199 ; i>189 ; i--){
+    var index = finishedArray.indexOf(i);
+    finishedArray.splice(index,1);
+    //check if block above is NOT backgroundColor
+    var j = i
+    if(document.getElementById(j-10).style.backgroundColor != "rgb(0, 95, 115)"){
+      while(document.getElementById(j-10).style.backgroundColor != "rgb(0, 95, 115)"){
+        console.log("j: " + j)
+        index = finishedArray.indexOf(j-10);
+        finishedArray.splice(index,1);
+        finishedArray.push(j);
+     
+        console.log(finishedArray)
+        document.getElementById(j).style.backgroundColor =  document.getElementById(j-10).style.backgroundColor
+        document.getElementById(j-10).style.backgroundColor = "rgb(0,95,115)"
+        j -=10
+      }
+    }else{
+       document.getElementById(i).style.backgroundColor =  document.getElementById(i-10).style.backgroundColor
+      document.getElementById(i-10).style.backgroundColor = "rgb(0,95,115)"
+    }
   }
 }
 function isRowDone(){
